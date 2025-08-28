@@ -1,0 +1,2869 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Pioneiro Odonto - Unificado</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #f0f8ff 0%, #e6f0ff 100%);
+            padding: 20px;
+            color: #333;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .app-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+        /* Cabeçalho e navegação */
+        .app-header {
+            background: linear-gradient(to right, #1e3f66 0%, #153354 100%);
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .app-title {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .nav-tabs {
+            display: flex;
+            gap: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 5px;
+            overflow-x: auto;
+        }
+        .nav-tab {
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .nav-tab:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .nav-tab.active {
+            background: white;
+            color: #1e3f66;
+        }
+        /* Conteúdo principal */
+        .main-content {
+            padding: 30px;
+        }
+        .module {
+            display: none;
+        }
+        .module.active {
+            display: block;
+        }
+        /* Estilos comuns para todos os módulos */
+        .module-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 25px;
+            border-bottom: 3px solid #6b2737;
+            margin-bottom: 30px;
+        }
+        .logo-container {
+            width: 220px;
+            height: 130px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .logo-img {
+            max-width: 100%;
+            max-height: 110px;
+            display: block;
+            border-radius: 8px;
+        }
+        .logo-placeholder {
+            width: 100%;
+            height: 100%;
+            background-color: #f8f0f3;
+            border: 2px dashed #6b2737;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #6b2737;
+            font-weight: bold;
+            text-align: center;
+            padding: 10px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .logo-placeholder:hover {
+            background-color: #f3e4e8;
+        }
+        .logo-url-input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        .company-info {
+            text-align: right;
+            color: #1e3f66;
+        }
+        .company-name {
+            font-size: 32px;
+            font-weight: bold;
+            color: #6b2737;
+            margin-bottom: 8px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        .company-detail {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        /* Painel de informações */
+        .info-panel {
+            background: linear-gradient(to right, #e8f1fc 0%, #e0ebf9 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 5px solid #1e3f66;
+        }
+        .info-panel h2 {
+            margin-top: 0;
+            color: #1e3f66;
+            text-align: center;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+            gap: 20px;
+        }
+        .form-group {
+            flex: 1;
+            min-width: 250px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #1e3f66;
+        }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+            transition: border 0.3s;
+        }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            border-color: #1e3f66;
+            outline: none;
+            box-shadow: 0 0 5px rgba(30, 63, 102, 0.3);
+        }
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .form-group-full {
+            flex: 100%;
+        }
+        /* Tabelas */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        .data-table th {
+            background: linear-gradient(to bottom, #1e3f66 0%, #153354 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        .data-table td {
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            vertical-align: top;
+        }
+        .data-table tr:nth-child(even) {
+            background-color: #f9fbfd;
+        }
+        .data-table tr:hover {
+            background-color: #f1f7ff;
+        }
+        .data-table input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        /* Área de serviços */
+        .services-area {
+            margin-bottom: 30px;
+        }
+        .services-area h3 {
+            color: #1e3f66;
+            border-bottom: 2px solid #6b2737;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        /* Assinaturas */
+        .signature-area {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 2px solid #6b2737;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .signature-box {
+            flex: 1;
+            min-width: 250px;
+        }
+        .signature-line {
+            height: 1px;
+            background-color: #555;
+            margin: 50px 0 8px;
+        }
+        .signature-box p {
+            text-align: center;
+            margin-top: 5px;
+            font-weight: bold;
+            color: #1e3f66;
+        }
+        /* Data e hora */
+        .datetime {
+            text-align: center;
+            margin-top: 25px;
+            padding: 15px;
+            background: linear-gradient(to right, #e8f1fc 0%, #e0ebf9 100%);
+            border-radius: 8px;
+            border-left: 5px solid #1e3f66;
+            font-weight: bold;
+        }
+        /* Botões */
+        .button-row {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            gap: 20px;
+        }
+        button {
+            background: linear-gradient(to bottom, #1e3f66 0%, #153354 100%);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        button.secondary {
+            background: linear-gradient(to bottom, #6b2737 0%, #561e2d 100%);
+        }
+        /* Status de salvamento */
+        .save-status {
+            text-align: center;
+            margin-top: 15px;
+            color: #28a745;
+            font-weight: bold;
+            height: 20px;
+        }
+        /* Instruções */
+        .instructions {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 25px;
+            border-left: 4px solid #1e3f66;
+            font-size: 14px;
+        }
+        /* Dashboard inicial */
+        .dashboard {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .dashboard h2 {
+            color: #1e3f66;
+            margin-bottom: 30px;
+        }
+        .dashboard-cards {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+        .dashboard-card {
+            background: linear-gradient(135deg, #e8f1fc 0%, #d9e6f7 100%);
+            border-radius: 12px;
+            padding: 25px;
+            width: 250px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+        .dashboard-card i {
+            font-size: 42px;
+            color: #1e3f66;
+            margin-bottom: 15px;
+        }
+        .dashboard-card h3 {
+            color: #1e3f66;
+            margin-bottom: 10px;
+        }
+        .dashboard-card p {
+            color: #6b2737;
+            font-size: 14px;
+        }
+        /* Botão para adicionar equipamentos (módulo de retirada) */
+        .add-equipment-btn {
+            background: linear-gradient(to bottom, #2a9d8f 0%, #23857a 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .add-equipment-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        /* Estilos para proposta de venda */
+        .equipment-table-container {
+            position: relative;
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+        .equipment-photo {
+            width: 120px;
+            text-align: center;
+        }
+        .equipment-photo-placeholder {
+            width: 100px;
+            height: 100px;
+            background-color: #f5f5f5;
+            border: 2px dashed #ccc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 12px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+        .equipment-photo-placeholder:hover {
+            background-color: #e9ecef;
+        }
+        .equipment-photo-img {
+            max-width: 100px;
+            max-height: 100px;
+            border-radius: 6px;
+            object-fit: cover;
+        }
+        .photo-url-input {
+            width: 100%;
+            padding: 6px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 11px;
+        }
+        .photo-options {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            width: 100%;
+        }
+        .photo-option-btn {
+            padding: 5px;
+            font-size: 11px;
+            cursor: pointer;
+            border: 1px solid #1e3f66;
+            border-radius: 3px;
+            background-color: #f0f5ff;
+            text-align: center;
+        }
+        .photo-option-btn:hover {
+            background-color: #d9e4ff;
+        }
+        .photo-file-input {
+            display: none;
+        }
+        .remove-row-btn {
+            background: linear-gradient(to bottom, #dc3545 0%, #c82333 100%);
+            color: white;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+        .remove-row-btn:hover {
+            opacity: 0.9;
+        }
+        .totals-area {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 30px;
+        }
+        .totals-box {
+            width: 350px;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e0e0e0;
+            align-items: center;
+        }
+        .total-row:last-child {
+            border-bottom: none;
+            font-weight: bold;
+            font-size: 18px;
+            color: #1e3f66;
+        }
+        .discount-input {
+            width: 120px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-align: right;
+            font-weight: bold;
+        }
+        .address-single-line {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        .address-single-line label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #1e3f66;
+        }
+        .address-single-line input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+            transition: border 0.3s;
+        }
+        .address-single-line input:focus {
+            border-color: #1e3f66;
+            outline: none;
+            box-shadow: 0 0 5px rgba(30, 63, 102, 0.3);
+        }
+        /* Estilos de impressão */
+        @media print {
+            @page {
+                margin: 0.5cm;
+                size: portrait;
+            }
+            
+            body {
+                background: white !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                font-size: 12px;
+                line-height: 1.2;
+                color: black !important;
+            }
+            
+            .app-container {
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 10px !important;
+                box-shadow: none !important;
+                border-radius: 0 !important;
+            }
+            
+            .app-header, .nav-tabs, .button-row, .save-status, .instructions,
+            .logo-url-input, .fa-image, .fa-exclamation-triangle, .add-equipment-btn,
+            .remove-row-btn, .discount-input, .photo-url-input, .photo-options, 
+            .photo-option-btn {
+                display: none !important;
+            }
+            
+            .module-header {
+                display: flex !important;
+                flex-direction: row !important;
+                align-items: flex-start !important;
+                justify-content: space-between !important;
+                padding-bottom: 10px !important;
+                margin-bottom: 15px !important;
+            }
+            
+            .logo-container {
+                width: 120px !important;
+                height: 80px !important;
+                flex-shrink: 0;
+                margin-right: 15px;
+            }
+            
+            .logo-img {
+                max-height: 70px !important;
+            }
+            
+            .logo-placeholder {
+                width: 100% !important;
+                height: 100% !important;
+                font-size: 10px !important;
+                padding: 5px !important;
+                border: none !important;
+                background: transparent !important;
+            }
+            
+            .company-info {
+                text-align: right !important;
+                flex-grow: 1;
+            }
+            
+            .company-name {
+                font-size: 20px !important;
+                margin-bottom: 3px !important;
+            }
+            
+            .company-detail {
+                font-size: 10px !important;
+                margin: 1px 0 !important;
+            }
+            
+            .info-panel, .services-area {
+                padding: 10px !important;
+                margin-bottom: 15px !important;
+            }
+            
+            .info-panel h2 {
+                font-size: 16px !important;
+                margin-bottom: 10px !important;
+            }
+            
+            .services-area h3 {
+                font-size: 14px !important;
+                margin-bottom: 10px !important;
+            }
+            
+            .form-row {
+                margin-bottom: 8px !important;
+                gap: 10px !important;
+            }
+            
+            .form-group {
+                min-width: 45% !important;
+            }
+            
+            .form-group label {
+                font-size: 11px !important;
+                margin-bottom: 3px !important;
+            }
+            
+            .form-group input, .form-group textarea {
+                padding: 6px !important;
+                font-size: 11px !important;
+                border: 1px solid #999 !important;
+                background-color: white !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            .form-group textarea {
+                min-height: 60px !important;
+            }
+            
+            .form-group-full {
+                width: 100% !important;
+            }
+            
+            .data-table {
+                font-size: 11px !important;
+                page-break-inside: avoid;
+            }
+            
+            .data-table th, 
+            .data-table td {
+                padding: 8px !important;
+                page-break-inside: avoid;
+            }
+            
+            .data-table input {
+                padding: 5px !important;
+                font-size: 11px !important;
+                border: 1px solid #ccc !important;
+                background-color: white !important;
+            }
+            
+            /* Correção para exibir os dados do inventário na impressão */
+            #inventory-body tr {
+                display: table-row !important;
+            }
+            
+            #inventory-body td {
+                display: table-cell !important;
+            }
+            
+            .equipment-photo {
+                width: 80px !important;
+            }
+            
+            .equipment-photo-img {
+                max-width: 70px !important;
+                max-height: 70px !important;
+                display: block !important;
+                border: 1px solid #ddd !important;
+            }
+            
+            .equipment-photo-placeholder {
+                display: block !important;
+                width: 70px !important;
+                height: 70px !important;
+                border: 1px solid #ddd !important;
+                background: white !important;
+                margin: 0 auto;
+                overflow: hidden;
+            }
+            
+            .totals-box {
+                width: 250px !important;
+                padding: 10px !important;
+            }
+            
+            .total-row {
+                font-size: 11px !important;
+            }
+            
+            .address-single-line input {
+                padding: 6px !important;
+                font-size: 11px !important;
+                border: 1px solid #999 !important;
+            }
+            
+            .signature-area {
+                margin-top: 20px !important;
+                padding-top: 15px !important;
+                page-break-inside: avoid;
+            }
+            
+            .signature-line {
+                margin: 25px 0 5px !important;
+            }
+            
+            .signature-box p {
+                font-size: 11px !important;
+            }
+            
+            .datetime {
+                margin-top: 15px !important;
+                padding: 8px !important;
+                font-size: 11px !important;
+            }
+            
+            /* CORREÇÃO CRÍTICA: Garantir que as imagens sejam exibidas */
+            .equipment-photo-placeholder img {
+                display: block !important;
+                max-width: 100% !important;
+                max-height: 100% !important;
+                object-fit: contain;
+            }
+            
+            /* Forçar fundos brancos para elementos de entrada */
+            input, textarea, select {
+                background: white !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            
+            .dashboard {
+                display: none !important;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .app-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .nav-tabs {
+                width: 100%;
+                overflow-x: auto;
+                justify-content: flex-start;
+            }
+            .module-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            .logo-container {
+                margin-bottom: 20px;
+            }
+            .company-info {
+                text-align: center;
+            }
+            .form-row {
+                flex-direction: column;
+            }
+            .signature-area {
+                flex-direction: column;
+            }
+            .signature-box {
+                margin: 15px 0;
+            }
+            
+            /* Ajustes para impressão em mobile */
+            @media print {
+                .module-header {
+                    flex-direction: row !important;
+                    text-align: right !important;
+                }
+                
+                .logo-container {
+                    margin-bottom: 0 !important;
+                }
+                
+                .company-info {
+                    text-align: right !important;
+                }
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="app-header">
+            <div class="app-title">
+                <i class="fas fa-tooth"></i> Pioneiro Odonto - Sistema Unificado
+            </div>
+            <div class="nav-tabs">
+                <div class="nav-tab" data-module="dashboard">Início</div>
+                <div class="nav-tab" data-module="inventory">Inventário</div>
+                <div class="nav-tab" data-module="service-order">Ordem de Serviço</div>
+                <div class="nav-tab" data-module="purchase-order">Pedidos de Compras</div>
+                <div class="nav-tab" data-module="preventive-maintenance">Manutenção Preventiva</div>
+                <div class="nav-tab" data-module="withdrawal-order">Retirada de Peças</div>
+                <div class="nav-tab" data-module="sales-proposal">Proposta de Venda</div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <!-- Dashboard Inicial -->
+            <div id="dashboard" class="module active">
+                <div class="dashboard">
+                    <h2>Bem-vindo ao Sistema de Gestão Pioneiro Odonto</h2>
+                    <p>Selecione uma das opções abaixo para começar:</p>
+                    
+                    <div class="dashboard-cards">
+                        <div class="dashboard-card" data-module="inventory">
+                            <i class="fas fa-clipboard-list"></i>
+                            <h3>Inventário</h3>
+                            <p>Controle de equipamentos e inventário</p>
+                        </div>
+                        
+                        <div class="dashboard-card" data-module="service-order">
+                            <i class="fas fa-file-alt"></i>
+                            <h3>Ordem de Serviço</h3>
+                            <p>Registro e acompanhamento de serviços</p>
+                        </div>
+                        
+                        <div class="dashboard-card" data-module="purchase-order">
+                            <i class="fas fa-shopping-cart"></i>
+                            <h3>Pedidos de Compras</h3>
+                            <p>Solicitação de produtos e materiais</p>
+                        </div>
+                        
+                        <div class="dashboard-card" data-module="preventive-maintenance">
+                            <i class="fas fa-tools"></i>
+                            <h3>Manutenção Preventiva</h3>
+                            <p>Registro de manutenções preventivas</p>
+                        </div>
+                        
+                        <div class="dashboard-card" data-module="withdrawal-order">
+                            <i class="fas fa-box-open"></i>
+                            <h3>Retirada de Peças</h3>
+                            <p>Controle de retirada de peças e equipamentos</p>
+                        </div>
+                        
+                        <div class="dashboard-card" data-module="sales-proposal">
+                            <i class="fas fa-file-contract"></i>
+                            <h3>Proposta de Venda</h3>
+                            <p>Criação de propostas comerciais</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Módulo de Inventário -->
+            <div id="inventory" class="module">
+                <div class="module-header">
+                    <div class="logo-container">
+                        <div class="logo-placeholder" id="inventory-logo-placeholder" onclick="document.getElementById('inventory-logo-url-input').style.display='block'">
+                            <i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px;"></i>
+                            CLIQUE PARA ADICIONAR LOGO
+                            <input type="text" id="inventory-logo-url-input" class="logo-url-input" placeholder="Cole a URL da imagem aqui" 
+                                   onblur="updateLogo(this.value, 'inventory')" style="display:none;">
+                        </div>
+                    </div>
+                    <div class="company-info">
+                        <div class="company-name">PIONEIRO ODONTO</div>
+                        <p class="company-detail"><i class="fas fa-id-card"></i> CNPJ: 61.193.795/0001-96</p>
+                        <p class="company-detail"><i class="fas fa-envelope"></i> pioneirodonto2020@gmail.com</p>
+                        <p class="company-detail"><i class="fas fa-map-marker-alt"></i> Rua Constança Barbosa,152 Sala 207 / Méier, Rio de Janeiro / RJ</p>
+                    </div>
+                </div>
+
+                <div class="info-panel">
+                    <h2><i class="fas fa-clipboard-list"></i> INVENTÁRIO DE EQUIPAMENTOS</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="clinic-name"><i class="fas fa-hospital"></i> Nome do Consultório:</label>
+                            <input type="text" id="clinic-name" name="clinic-name">
+                        </div>
+                        <div class="form-group">
+                            <label for="inventory-date"><i class="fas fa-calendar"></i> Data do Inventário:</label>
+                            <input type="date" id="inventory-date" name="inventory-date">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="responsible"><i class="fas fa-user"></i> Responsável pelo Inventário:</label>
+                            <input type="text" id="responsible" name="responsible">
+                        </div>
+                        <div class="form-group">
+                            <label for="location"><i class="fas fa-map-pin"></i> Localização:</label>
+                            <input type="text" id="location" name="location">
+                        </div>
+                    </div>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th width="5%">#</th>
+                            <th width="40%">Equipamento</th>
+                            <th width="25%">Marca</th>
+                            <th width="30%">Número de Série</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inventory-body">
+                        <!-- 20 linhas para equipamentos -->
+                    </tbody>
+                </table>
+
+                <div class="signature-area">
+                    <div class="signature-box">
+                        <div class="signature-line"></div>
+                        <p><i class="fas fa-signature"></i> Assinatura do Responsável</p>
+                    </div>
+                    <div class="signature-box">
+                        <div class="signature-line"></div>
+                        <p><i class="fas fa-signature"></i> Assinatura do Conferente</p>
+                    </div>
+                </div>
+
+                <div class="datetime">
+                    <p><i class="fas fa-calendar-alt"></i> Data e Hora do Inventário: <span id="inventory-current-datetime"></span></p>
+                </div>
+
+                <div class="button-row">
+                    <button onclick="window.print()"><i class="fas fa-print"></i> Imprimir Inventário</button>
+                    <button onclick="saveInventoryData()" id="save-inventory-button"><i class="fas fa-save"></i> Salvar Dados</button>
+                    <button onclick="clearInventoryForm()" class="secondary"><i class="fas fa-broom"></i> Limpar Formulário</button>
+                </div>
+                
+                <div class="save-status" id="inventory-save-status"></div>
+                
+                <div class="instructions">
+                    <p><strong>Instruções:</strong> Para adicionar sua logo, clique no espaço indicado, cole a URL da imagem do Imgur e pressione Enter. Os dados são salvos automaticamente no seu navegador.</p>
+                </div>
+            </div>
+
+            <!-- Módulo de Ordem de Serviço -->
+            <div id="service-order" class="module">
+                <div class="module-header">
+                    <div class="logo-container">
+                        <div class="logo-placeholder" id="os-logo-placeholder" onclick="document.getElementById('os-logo-url-input').style.display='block'">
+                            <i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px;"></i>
+                            CLIQUE PARA ADICIONAR LOGO
+                            <input type="text" id="os-logo-url-input" class="logo-url-input" placeholder="Cole a URL da imagem aqui" 
+                                   onblur="updateLogo(this.value, 'os')" style="display:none;">
+                        </div>
+                    </div>
+                    <div class="company-info">
+                        <div class="company-name">PIONEIRO ODONTO</div>
+                        <p class="company-detail"><i class="fas fa-id-card"></i> CNPJ: 61.193.795/0001-96</p>
+                        <p class="company-detail"><i class="fas fa-envelope"></i> pioneirodonto2020@gmail.com</p>
+                        <p class="company-detail"><i class="fas fa-map-marker-alt"></i> Rua Constança Barbosa,152 Sala 207 / Méier, Rio de Janeiro / RJ</p>
+                    </div>
+                </div>
+
+                <div class="info-panel">
+                    <h2><i class="fas fa-file-alt"></i> ORDEM DE SERVIÇO</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="os-number"><i class="fas fa-hashtag"></i> Número da OS:</label>
+                            <input type="text" id="os-number" name="os-number">
+                        </div>
+                        <div class="form-group">
+                            <label for="os-date"><i class="fas fa-calendar"></i> Data:</label>
+                            <input type="date" id="os-date" name="os-date">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="client"><i class="fas fa-user"></i> Cliente:</label>
+                            <input type="text" id="client" name="client">
+                        </div>
+                        <div class="form-group">
+                            <label for="equipment"><i class="fas fa-tools"></i> Equipamento:</label>
+                            <input type="text" id="equipment" name="equipment">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="serial"><i class="fas fa-barcode"></i> Nº de Série:</label>
+                            <input type="text" id="serial" name="serial">
+                        </div>
+                        <div class="form-group">
+                            <label for="technician"><i class="fas fa-user-cog"></i> Técnico Responsável:</label>
+                            <input type="text" id="technician" name="technician">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group-full">
+                            <label for="reported-issue"><i class="fas fa-exclamation-circle"></i> Problema Relatado:</label>
+                            <textarea id="reported-issue" name="reported-issue"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group-full">
+                            <label for="condition"><i class="fas fa-clipboard-check"></i> Condição do Equipamento (ao receber):</label>
+                            <textarea id="condition" name="condition"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="services-area">
+                    <h3><i class="fas fa-tasks"></i> SERVIÇOS REALIZADOS</h3>
+                    <div class="form-row">
+                        <div class="form-group-full">
+                            <label for="services"><i class="fas fa-wrench"></i> Descrição dos Serviços Executados:</label>
+                            <textarea id="services" name="services"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group-full">
+                            <label for="observations"><i class="fas fa-sticky-note"></i> Observações e Recomendações:</label>
+                            <textarea id="observations" name="observations"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="signature-area">
+                    <div class="signature-box">
+                        <div class="signature-line"></div>
+                        <p><i class="fas fa-signature"></i> Assinatura do Técnico</p>
+                    </div>
+                    <div class="signature-box">
+                        <div class="signature-line"></div>
+                        <p><i class="fas fa-signature"></i> Assinatura do Responsável pelo Cliente</p>
+                    </div>
+                </div>
+
+                <div class="datetime">
+                    <p><i class="fas fa-calendar-alt"></i> Data e Hora de Conclusão: <span id="os-current-datetime"></span></p>
+                </div>
+
+                <div class="button-row">
+                    <button onclick="window.print()"><i class="fas fa-print"></i> Imprimir OS</button>
+                    <button onclick="saveOSData()" id="save-os-button"><i class="fas fa-save"></i> Salvar Dados</button>
+                    <button onclick="clearOSForm()" class="secondary"><i class="fas fa-broom"></i> Limpar Formulário</button>
+                </div>
+                
+                <div class="save-status" id="os-save-status"></div>
+                
+                <div class="instructions">
+                    <p><strong>Instruções:</strong> Para adicionar sua logo, clique no espaço indicado, cole a URL da imagem do Imgur e pressione Enter. Os dados são salvos automaticamente no seu navegador.</p>
+                </div>
+            </div>
+
+            <!-- Módulo de Pedidos de Compras -->
+            <div id="purchase-order" class="module">
+                <div class="module-header">
+                    <div class="logo-container">
+                        <div class="logo-placeholder" id="po-logo-placeholder" onclick="document.getElementById('po-logo-url-input').style.display='block'">
+                            <i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px;"></i>
+                            CLIQUE PARA ADICIONAR LOGO
+                            <input type="text" id="po-logo-url-input" class="logo-url-input" placeholder="Cole a URL da imagem aqui" 
+                                   onblur="updateLogo(this.value, 'po')" style="display:none;">
+                        </div>
+                    </div>
+                    <div class="company-info">
+                        <div class="company-name">PIONEIRO ODONTO</div>
+                        <p class="company-detail"><i class="fas fa-id-card"></i> CNPJ: 61.193.795/0001-96</p>
+                        <p class="company-detail"><i class="fas fa-envelope"></i> pioneirodonto2020@gmail.com</p>
+                        <p class="company-detail"><i class="fas fa-map-marker-alt"></i> Rua Constança Barbosa,152 Sala 207 / Méier, Rio de Janeiro / RJ</p>
+                    </div>
+                </div>
+
+                <div class="info-panel">
+                    <h2><i class="fas fa-shopping-cart"></i> PEDIDO OFICIAL DE COMPRAS</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="chain"><i class="fas fa-chair"></i> Equipamento:</label>
+                            <input type="text" id="chain" name="chain">
+                        </div>
+                        <div class="form-group">
+                            <label for="clinic"><i class="fas fa-hospital"></i> Consultório:</label>
+                            <input type="text" id="clinic" name="clinic">
+                        </div>
+                    </div>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th width="50%">Nome do Produto</th>
+                            <th width="20%">Quantidade</th>
+                            <th width="30%">Imagem do Produto</th>
+                        </tr>
+                    </thead>
+                    <tbody id="products-body">
+                        <!-- 15 linhas para produtos -->
+                    </tbody>
+                </table>
+
+                <div class="signature-area">
+                    <div class="signature-box">
+                        <div class="signature-line"></div>
+                        <p><i class="fas fa-signature"></i> Assinatura do Responsável Técnico</p>
+                    </div>
+                    <div class="signature-box">
+                        <div class="signature-line"></div>
+                        <p><i class="fas fa-signature"></i> Assinatura do Responsável da Empresa</p>
+                    </div>
+                </div>
+
+                <div class="datetime">
+                    <p><i class="fas fa-calendar-alt"></i> Data e Hora do Pedido: <span id="po-current-datetime"></span></p>
+                </div>
+
+                <div class="button-row">
+                    <button onclick="window.print()"><i class="fas fa-print"></i> Imprimir Pedido</button>
+                    <button onclick="savePOData()" id="save-po-button"><i class="fas fa-save"></i> Salvar Dados</button>
+                    <button onclick="clearPOForm()" class="secondary"><i class="fas fa-broom"></i> Limpar Formulário</button>
+                </div>
+                
+                <div class="save-status" id="po-save-status"></div>
+                
+                <div class="instructions">
+                    <p><strong>Instruções:</strong> Para adicionar sua logo, clique no espaço indicado, cole a URL da imagem do Imgur e pressione Enter. Os dados são salvos automaticamente no seu navegador.</p>
+                </div>
+            </div>
+
+            <!-- Módulo de Manutenção Preventiva -->
+            <div id="preventive-maintenance" class="module">
+                <div class="module-header">
+                    <div class="logo-container">
+                        <div class="logo-placeholder" id="pm-logo-placeholder" onclick="document.getElementById('pm-logo-url-input').style.display='block'">
+                            <i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px;"></i>
+                            CLIQUE PARA ADICIONAR LOGO
+                            <input type="text" id="pm-logo-url-input" class="logo-url-input" placeholder="Cole a URL da imagem aqui" 
+                                   onblur="updateLogo(this.value, 'pm')" style="display:none;">
+                        </div>
+                    </div>
+                    <div class="company-info">
+                        <div class="company-name">PIONEIRO ODONTO</div>
+                        <p class="company-detail"><i class="fas fa-id-card"></i> CNPJ: 61.193.795/0001-96</p>
+                        <p class="company-detail"><i class="fas fa-envelope"></i> pioneirodonto2020@gmail.com</p>
+                        <p class="company-detail"><i class="fas fa-map-marker-alt"></i> Rua Constança Barbosa,152 Sala 207 / Méier, Rio de Janeiro / RJ</p>
+                    </div>
+                </div>
+
+                <div class="info-panel">
+                    <h2><i class="fas fa-tools"></i> ORDEM DE MANUTENÇÃO PREVENTIVA</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="clinic-number"><i class="fas fa-hospital"></i> Número do Consultório:</label>
+                            <input type="text" id="clinic-number" name="clinic-number">
+                        </div>
+                        <div class="form-group">
+                            <label for="maintenance-date"><i class="fas fa-calendar"></i> Data da Manutenção:</label>
+                            <input type="date" id="maintenance-date" name="maintenance-date">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="pm-technician"><i class="fas fa-user-cog"></i> Técnico Responsável:</label>
+                            <input type="text" id="pm-technician" name="pm-technician">
+                        </div>
+                        <div class="form-group">
+                            <label for="week-day"><i class="fas fa-calendar-week"></i> Dia da Semana:</label>
+                            <select id="week-day" name="week-day">
+                                <option value="">Selecione o dia</option>
+                                <option value="Segunda-feira">Segunda-feira</option>
+                                <option value="Terça-feira">Terça-feira</option>
+                                <option value="Quarta-feira">Quarta-feira</option>
+                                <option value="Quinta-feira">Quinta-feira</option>
+                                <option value="Sexta-feira">Sexta-feira</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th width="20%">Equipamento</th>
+                            <th width="25%">Problemas Encontrados</th>
+                            <th width="25%">Solicitações de Troca/Reparo</th>
+                            <th width="30%">Serviços Realizados</th>
+                        </tr>
+                    </thead>
+                    <tbody id="maintenance-body">
+                        <!-- Equipamentos serão gerados via JavaScript -->
+                    </tbody>
+                </table>
+
+                <div class="signature-area">
+                    <div class="signature-box">
+                        <div class="signature-line"></div>
+                        <p><i class="fas fa-signature"></i> Assinatura do Técnico</p>
+                    </div>
+                    <div class="signature-box">
+                        <div class="signature-line"></div>
+                        <p><i class="fas fa-signature"></i> Assinatura do Responsável</p>
+                    </div>
+                </div>
+
+                <div class="datetime">
+                    <p><i class="fas fa-calendar-alt"></i> Data e Hora da Manutenção: <span id="pm-current-datetime"></span></p>
+                </div>
+
+                <div class="button-row">
+                    <button onclick="window.print()"><i class="fas fa-print"></i> Imprimir Ordem</button>
+                    <button onclick="savePMData()" id="save-pm-button"><i class="fas fa-save"></i> Salvar Dados</button>
+                    <button onclick="clearPMForm()" class="secondary"><i class="fas fa-broom"></i> Limpar Formulário</button>
+                </div>
+                
+                <div class="save-status" id="pm-save-status"></div>
+                
+                <div class="instructions">
+                    <p><strong>Instruções:</strong> Para adicionar sua logo, clique no espaço indicado, cole a URL da imagem do Imgur e pressione Enter. Os dados são salvos automaticamente no seu navegador.</p>
+                </div>
+            </div>
+
+            <!-- Módulo de Retirada de Peças -->
+            <div id="withdrawal-order" class="module">
+                <div class="module-header">
+                    <div class="logo-container">
+                        <div class="logo-placeholder" id="wo-logo-placeholder" onclick="document.getElementById('wo-logo-url-input').style.display='block'">
+                            <i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px;"></i>
+                            CLIQUE PARA ADICIONAR LOGO
+                            <input type="text" id="wo-logo-url-input" class="logo-url-input" placeholder="Cole a URL da imagem aqui" 
+                                   onblur="updateLogo(this.value, 'wo')" style="display:none;">
+                        </div>
+                    </div>
+                    <div class="company-info">
+                        <div class="company-name">PIONEIRO ODONTO</div>
+                        <div class="client-name">SECONCI - SERVIÇO SOCIAL DA CONSTRUÇÃO</div>
+                        <p class="company-detail"><i class="fas fa-id-card"></i> CNPJ: 61.193.795/0001-96</p>
+                        <p class="company-detail"><i class="fas fa-envelope"></i> pioneirodonto2020@gmail.com</p>
+                        <p class="company-detail"><i class="fas fa-map-marker-alt"></i> Rua Constança Barbosa,152 Sala 207 / Méier, Rio de Janeiro / RJ</p>
+                    </div>
+                </div>
+
+                <div class="info-panel">
+                    <h2><i class="fas fa-tools"></i> ORDEM DE RETIRADA DE PEÇAS/EQUIPAMENTOS</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="withdrawal-number"><i class="fas fa-hashtag"></i> Número da Ordem:</label>
+                            <input type="text" id="withdrawal-number" name="withdrawal-number" value="RET-2023-001">
+                        </div>
+                        <div class="form-group">
+                            <label for="withdrawal-date"><i class="fas fa-calendar"></i> Data da Retirada:</label>
+                            <input type="date" id="withdrawal-date" name="withdrawal-date">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="wo-technician"><i class="fas fa-user-cog"></i> Técnico Responsável:</label>
+                            <input type="text" id="wo-technician" name="wo-technician" placeholder="Nome do técnico">
+                        </div>
+                        <div class="form-group">
+                            <label for="clinic-location"><i class="fas fa-map-marker-alt"></i> Local de Origem (Consultório):</label>
+                            <input type="text" id="clinic-location" name="clinic-location" placeholder="Local onde o equipamento estava instalado">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="estimated-return"><i class="fas fa-calendar-check"></i> Previsão de Retorno:</label>
+                            <input type="date" id="estimated-return" name="estimated-return">
+                        </div>
+                        <div class="form-group">
+                            <label for="urgency"><i class="fas fa-exclamation-triangle"></i> Nível de Urgência:</label>
+                            <select id="urgency" name="urgency">
+                                <option value="normal">Normal</option>
+                                <option value="urgent">Urgente</option>
+                                <option value="critical">Crítico</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="add-equipment-btn" onclick="addEquipment()">
+                    <i class="fas fa-plus-circle"></i> Adicionar Equipamento/Peça
+                </button>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th width="20%">Equipamento/Peça</th>
+                            <th width="15%">Marca</th>
+                            <th width="15%">Número de Série</th>
+                            <th width="20%">Problema Relatado</th>
+                            <th width="20%">Acessórios Retirados</th>
+                            <th width="10%">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="equipment-body">
+                        <!-- Equipamentos serão gerados via JavaScript -->
+                    </tbody>
+                </table>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="observations"><i class="fas fa-sticky-note"></i> Observações Adicionais:</label>
+                        <textarea id="observations" name="observations" rows="4" placeholder="Informações adicionais relevantes para a retirada"></textarea>
+                    </div>
+                </div>
+
+                <div class="signature-area">
+                    <div class="signature-box">
+                        <div class="signature-line"></div>
+                        <p><i class="fas fa-signature"></i> Assinatura do Técnico</p>
+                    </div>
+                    <div class="signature-box">
+                        <div class="signature-line"></div>
+                        <p><i class="fas fa-signature"></i> Assinatura do Responsável SECONCI</p>
+                    </div>
+                    <div class="signature-box">
+                        <div class="signature-line"></div>
+                        <p><i class="fas fa-signature"></i> Assinatura do Responsável Pioneiro</p>
+                    </div>
+                </div>
+
+                <div class="datetime">
+                    <p><i class="fas fa-calendar-alt"></i> Data and Hora da Emissão: <span id="wo-current-datetime"></span></p>
+                </div>
+
+                <div class="button-row">
+                    <button onclick="window.print()"><i class="fas fa-print"></i> Imprimir Ordem</button>
+                    <button onclick="saveWOData()" id="save-wo-button"><i class="fas fa-save"></i> Salvar Dados</button>
+                    <button onclick="clearWOForm()" class="secondary"><i class="fas fa-broom"></i> Limpar Formulário</button>
+                </div>
+                
+                <div class="save-status" id="wo-save-status"></div>
+                
+                <div class="instructions">
+                    <p><strong>Instruções:</strong> Para adicionar sua logo, clique no espaço indicado, cole a URL da imagem do Imgur and pressione Enter. Os dados são salvos automaticamente no seu navegador. Clique em "Adicionar Equipamento/Peça" para incluir múltiplos itens na mesma ordem.</p>
+                </div>
+            </div>
+
+            <!-- Módulo de Proposta de Venda -->
+            <div id="sales-proposal" class="module">
+                <div class="module-header">
+                    <div class="logo-container">
+                        <div class="logo-placeholder" id="sp-logo-placeholder" onclick="document.getElementById('sp-logo-url-input').style.display='block'">
+                            <i class="fas fa-image" style="font-size: 24px; margin-bottom: 8px;"></i>
+                            CLIQUE PARA ADICIONAR LOGO
+                            <input type="text" id="sp-logo-url-input" class="logo-url-input" placeholder="Cole a URL da imagem aqui" 
+                                   onblur="updateLogo(this.value, 'sp')" style="display:none;">
+                        </div>
+                    </div>
+                    <div class="company-info">
+                        <div class="company-name">PIONEIRO ODONTO</div>
+                        <p class="company-detail"><i class="fas fa-id-card"></i> CNPJ: 61.193.795/0001-96</p>
+                        <p class="company-detail"><i class="fas fa-envelope"></i> pioneirodonto2020@gmail.com</p>
+                        <p class="company-detail"><i class="fas fa-map-marker-alt"></i> Rua Constança Barbosa,152 Sala 207 / Méier, Rio de Janeiro / RJ</p>
+                    </div>
+                </div>
+
+                <div class="info-panel">
+                    <h2><i class="fas fa-file-contract"></i> PROPOSTA COMERCIAL</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="sale-number"><i class="fas fa-hashtag"></i> Número da Proposta:</label>
+                            <input type="text" id="sale-number" name="sale-number">
+                        </div>
+                        <div class="form-group">
+                            <label for="sale-date"><i class="fas fa-calendar"></i> Data da Proposta:</label>
+                            <input type="date" id="sale-date" name="sale-date">
+                        </div>
+                        <div class="form-group">
+                            <label for="valid-date"><i class="fas fa-calendar-check"></i> Válida até:</label>
+                            <input type="date" id="valid-date" name="valid-date">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="client-name"><i class="fas fa-user"></i> Nome do Cliente:</label>
+                            <input type="text" id="client-name" name="client-name">
+                        </div>
+                        <div class="form-group">
+                            <label for="client-document"><i class="fas fa-id-card"></i> CPF/CNPJ:</label>
+                            <input type="text" id="client-document" name="client-document">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="client-email"><i class="fas fa-envelope"></i> E-mail:</label>
+                            <input type="email" id="client-email" name="client-email">
+                        </div>
+                        <div class="form-group">
+                            <label for="client-phone"><i class="fas fa-phone"></i> Telefone:</label>
+                            <input type="tel" id="client-phone" name="client-phone">
+                        </div>
+                    </div>
+                    
+                    <!-- Endereço em linha única -->
+                    <div class="address-single-line">
+                        <label for="client-full-address"><i class="fas fa-map-marker-alt"></i> Endereço Completo:</label>
+                        <input type="text" id="client-full-address" name="client-full-address" placeholder="Ex: Rua Exemplo, 123, Centro, São Paulo - SP, 01234-567">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="salesperson"><i class="fas fa-user-tie"></i> Vendedor:</label>
+                            <input type="text" id="salesperson" name="salesperson">
+                        </div>
+                        <div class="form-group">
+                            <label for="payment-method"><i class="fas fa-credit-card"></i> Forma de Pagamento:</label>
+                            <select id="payment-method" name="payment-method">
+                                <option value="">Selecione...</option>
+                                <option value="cash">Dinheiro</option>
+                                <option value="pix">PIX</option>
+                                <option value="credit">Cartão de Crédito</option>
+                                <option value="debit">Cartão de Débito</option>
+                                <option value="transfer">Transferência Bancária</option>
+                                <option value="check">Cheque</option>
+                                <option value="financing">Financiamento</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="equipment-table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th width="5%">#</th>
+                                <th width="12%">Foto</th>
+                                <th width="18%">Equipamento</th>
+                                <th width="15%">Marca/Modelo</th>
+                                <th width="20%">Observações</th>
+                                <th width="8%">Quantidade</th>
+                                <th width="10%">Preço Unitário (R$)</th>
+                                <th width="12%">Total (R$)</th>
+                                <th width="10%">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sp-equipment-body">
+                            <!-- Linhas serão adicionadas dinamicamente -->
+                        </tbody>
+                    </table>
+                    <button class="add-equipment-btn" id="add-sp-equipment-btn" title="Adicionar equipamento">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+
+                <div class="totals-area">
+                    <div class="totals-box">
+                        <div class="total-row">
+                            <span>Subtotal:</span>
+                            <span id="subtotal">R$ 0,00</span>
+                        </div>
+                        <div class="total-row">
+                            <span>Desconto (R$):</span>
+                            <input type="number" step="0.01" min="0" id="discount-input" class="discount-input" value="0.00">
+                        </div>
+                        <div class="total-row">
+                            <span>Frete/Instalação:</span>
+                            <span id="shipping">R$ 0,00</span>
+                        </div>
+                        <div class="total-row">
+                            <span>Total:</span>
+                            <span id="total">R$ 0,00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-panel">
+                    <h3><i class="fas fa-money-bill-wave"></i> CONDIÇÕES DE PAGAMENTO</h3>
+                    <div class="form-row">
+                        <div class="form-group-full">
+                            <label for="payment-terms"><i class="fas fa-file-contract"></i> Condições de Pagamento (parcelamento, entrada, etc.):</label>
+                            <textarea id="payment-terms" name="payment-terms" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="signature-area">
+                    <div class="signature-box">
+                        <div class="signature-line"></div>
+                        <p><i class="fas fa-signature"></i> Assinatura do Representante</p>
+                    </div>
+                    <div class="signature-box">
+                        <div class="signature-line"></div>
+                        <p><i class="fas fa-signature"></i> Assinatura do Cliente</p>
+                    </div>
+                </div>
+
+                <div class="datetime">
+                    <p><i class="fas fa-calendar-alt"></i> Data e Hora da Proposta: <span id="sp-current-datetime"></span></p>
+                </div>
+
+                <div class="button-row">
+                    <button onclick="printProposal()"><i class="fas fa-print"></i> Imprimir Proposta</button>
+                    <button onclick="saveSPData()" id="save-sp-button"><i class="fas fa-save"></i> Salvar Dados</button>
+                    <button onclick="clearSPForm()" class="secondary"><i class="fas fa-broom"></i> Limpar Formulário</button>
+                </div>
+                
+                <div class="save-status" id="sp-save-status"></div>
+                
+                <div class="instructions">
+                    <p><strong>Instruções:</strong> Para adicionar fotos aos equipamentos, clique no placeholder de foto e escolha uma opção: URL ou upload de imagem local. Imagens locais aparecerão na impressão/PDF. Os dados são salvos automaticamente no seu navegador.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variáveis globais
+        const INVENTORY_ROWS = 20;
+        const PRODUCT_ROWS = 15;
+        
+        // Lista de equipamentos para manutenção preventiva
+        const equipmentList = [
+            "Cadeira",
+            "Unidade Auxiliar (cuspideria)",
+            "Kart",
+            "Refletor",
+            "Prof",
+            "Raio X",
+            "Bomba a vácuo",
+            "Compressor",
+            "Fotopolimerizador",
+            "Amalgamador",
+            "Moxo"
+        ];
+        
+        let inventoryData = Array(INVENTORY_ROWS).fill().map(() => ({ equipment: '', brand: '', serial: '' }));
+        let productsData = Array(PRODUCT_ROWS).fill().map(() => ({ name: '', quantity: '', image: '' }));
+        let maintenanceData = equipmentList.map(equipment => ({
+            equipment: equipment,
+            problems: '',
+            requests: '',
+            services: ''
+        }));
+        
+        // Dados da retirada
+        let withdrawalData = {
+            withdrawalNumber: "RET-" + new Date().getFullYear() + "-001",
+            withdrawalDate: "",
+            technician: "",
+            clinicLocation: "",
+            estimatedReturn: "",
+            urgency: "normal",
+            equipment: [],
+            observations: ""
+        };
+        
+        // Dados da proposta de venda
+        let spEquipmentData = [{
+            equipment: '', 
+            brand: '', 
+            quantity: '', 
+            price: '', 
+            total: '0.00',
+            notes: '',
+            imageData: ''
+        }];
+        
+        // Contador de equipamentos (para o módulo de retirada)
+        let equipmentCount = 0;
+        
+        // Navegação entre módulos
+        function setupNavigation() {
+            const navTabs = document.querySelectorAll('.nav-tab');
+            const dashboardCards = document.querySelectorAll('.dashboard-card');
+            const modules = document.querySelectorAll('.module');
+            
+            // Função para ativar um módulo
+            function activateModule(moduleId) {
+                modules.forEach(module => {
+                    module.classList.remove('active');
+                });
+                
+                navTabs.forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                
+                document.getElementById(moduleId).classList.add('active');
+                document.querySelector(`.nav-tab[data-module="${moduleId}"]`).classList.add('active');
+                
+                // Atualizar data e hora específicas do módulo
+                if (moduleId === 'inventory') {
+                    updateDateTime('inventory');
+                } else if (moduleId === 'service-order') {
+                    updateDateTime('os');
+                    // Gerar número de OS automático se estiver vazio
+                    if (!document.getElementById('os-number').value) {
+                        generateOSNumber();
+                    }
+                } else if (moduleId === 'purchase-order') {
+                    updateDateTime('po');
+                } else if (moduleId === 'preventive-maintenance') {
+                    updateDateTime('pm');
+                    // Definir data atual e dia da semana se não estiver definido
+                    if (!document.getElementById('maintenance-date').value) {
+                        const today = new Date().toISOString().substr(0, 10);
+                        document.getElementById('maintenance-date').value = today;
+                    }
+                    if (!document.getElementById('week-day').value) {
+                        const days = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+                        const todayIndex = new Date().getDay();
+                        document.getElementById('week-day').value = days[todayIndex];
+                    }
+                } else if (moduleId === 'withdrawal-order') {
+                    updateDateTime('wo');
+                    // Definir data atual se não estiver definida
+                    if (!document.getElementById('withdrawal-date').value) {
+                        const today = new Date().toISOString().substr(0, 10);
+                        document.getElementById('withdrawal-date').value = today;
+                        withdrawalData.withdrawalDate = today;
+                    }
+                    // Definir número da ordem automaticamente
+                    document.getElementById('withdrawal-number').value = withdrawalData.withdrawalNumber;
+                } else if (moduleId === 'sales-proposal') {
+                    updateDateTime('sp');
+                    // Definir data atual se não estiver definida
+                    if (!document.getElementById('sale-date').value) {
+                        const today = new Date().toISOString().substr(0, 10);
+                        document.getElementById('sale-date').value = today;
+                    }
+                    // Definir data de validade (30 dias a partir de hoje)
+                    if (!document.getElementById('valid-date').value) {
+                        const validDate = new Date();
+                        validDate.setDate(validDate.getDate() + 30);
+                        document.getElementById('valid-date').value = validDate.toISOString().substr(0, 10);
+                    }
+                    // Gerar número de proposta automático se não existir
+                    if (!document.getElementById('sale-number').value) {
+                        generateSaleNumber();
+                    }
+                }
+            }
+            
+            // Adicionar eventos aos tabs de navegação
+            navTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const moduleId = tab.getAttribute('data-module');
+                    activateModule(moduleId);
+                });
+            });
+            
+            // Adicionar eventos aos cards do dashboard
+            dashboardCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const moduleId = card.getAttribute('data-module');
+                    activateModule(moduleId);
+                });
+            });
+        }
+        
+        // Atualizar data e hora
+        function updateDateTime(module) {
+            const now = new Date();
+            const dateTimeStr = now.toLocaleString('pt-BR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            document.getElementById(`${module}-current-datetime`).textContent = dateTimeStr;
+        }
+        
+        // Gerar número de OS automático
+        function generateOSNumber() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+            
+            const osNumber = `${year}${month}${day}-${random}`;
+            document.getElementById('os-number').value = osNumber;
+        }
+        
+        // Gerar número de proposta automático
+        function generateSaleNumber() {
+            const now = new Date();
+            const datePart = now.toISOString().substr(0, 10).replace(/-/g, '');
+            const randomPart = Math.floor(1000 + Math.random() * 9000);
+            document.getElementById('sale-number').value = `P-${datePart}-${randomPart}`;
+        }
+        
+        // Atualizar logo
+        function updateLogo(url, module) {
+            const placeholder = document.getElementById(`${module}-logo-placeholder`);
+            if (url) {
+                placeholder.innerHTML = `<img src="${url}" class="logo-img" alt="Logo">`;
+                placeholder.onclick = null;
+                
+                // Salvar URL da logo no localStorage
+                localStorage.setItem(`${module}-logo-url`, url);
+            }
+        }
+        
+        // Inicializar tabelas
+        function initializeTables() {
+            const inventoryBody = document.getElementById('inventory-body');
+            const productsBody = document.getElementById('products-body');
+            const maintenanceBody = document.getElementById('maintenance-body');
+            
+            // Inicializar tabela de inventário
+            for (let i = 0; i < INVENTORY_ROWS; i++) {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${i + 1}</td>
+                    <td><input type="text" id="equipment-${i}" name="equipment-${i}" oninput="updateInventoryData(${i}, 'equipment')"></td>
+                    <td><input type="text" id="brand-${i}" name="brand-${i}" oninput="updateInventoryData(${i}, 'brand')"></td>
+                    <td><input type="text" id="serial-${i}" name="serial-${i}" oninput="updateInventoryData(${i}, 'serial')"></td>
+                `;
+                inventoryBody.appendChild(row);
+            }
+            
+            // Inicializar tabela de produtos
+            for (let i = 0; i < PRODUCT_ROWS; i++) {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><input type="text" id="product-${i}" name="product-${i}" oninput="updateProductData(${i}, 'name')"></td>
+                    <td><input type="number" id="quantity-${i}" name="quantity-${i}" min="1" oninput="updateProductData(${i}, 'quantity')"></td>
+                    <td><input type="text" id="product-image-${i}" name="product-image-${i}" placeholder="URL da imagem" oninput="updateProductData(${i}, 'image')"></td>
+                `;
+                productsBody.appendChild(row);
+            }
+            
+            // Inicializar tabela de manutenção preventiva
+            maintenanceData.forEach((item, index) => {
+                const row = document.createElement('tr');
+                
+                // Coluna do equipamento (agora editável)
+                const equipCell = document.createElement('td');
+                equipCell.className = 'equipment-name';
+                
+                const equipName = document.createElement('div');
+                equipName.textContent = item.equipment;
+                
+                const equipInput = document.createElement('input');
+                equipInput.type = 'text';
+                equipInput.className = 'equipment-input';
+                equipInput.placeholder = 'Especificar modelo/marca';
+                equipInput.value = item.equipmentDetails || '';
+                equipInput.dataset.index = index;
+                equipInput.addEventListener('input', () => {
+                    maintenanceData[index].equipmentDetails = equipInput.value;
+                });
+                
+                equipCell.appendChild(equipName);
+                equipCell.appendChild(equipInput);
+                
+                // Coluna de problemas encontrados
+                const problemsCell = document.createElement('td');
+                const problemsTextarea = document.createElement('textarea');
+                problemsTextarea.placeholder = 'Problemas encontrados no equipamento';
+                problemsTextarea.value = item.problems;
+                problemsTextarea.dataset.index = index;
+                problemsTextarea.dataset.field = 'problems';
+                problemsTextarea.addEventListener('input', () => {
+                    maintenanceData[index].problems = problemsTextarea.value;
+                });
+                problemsCell.appendChild(problemsTextarea);
+                
+                // Coluna de solicitações
+                const requestsCell = document.createElement('td');
+                const requestsTextarea = document.createElement('textarea');
+                requestsTextarea.placeholder = 'Solicitações de troca ou reparo';
+                requestsTextarea.value = item.requests;
+                requestsTextarea.dataset.index = index;
+                requestsTextarea.dataset.field = 'requests';
+                requestsTextarea.addEventListener('input', () => {
+                    maintenanceData[index].requests = requestsTextarea.value;
+                });
+                requestsCell.appendChild(requestsTextarea);
+                
+                // Coluna de serviços realizados
+                const servicesCell = document.createElement('td');
+                const servicesTextarea = document.createElement('textarea');
+                servicesTextarea.placeholder = 'Serviços realizados na hora';
+                servicesTextarea.value = item.services;
+                servicesTextarea.dataset.index = index;
+                servicesTextarea.dataset.field = 'services';
+                servicesTextarea.addEventListener('input', () => {
+                    maintenanceData[index].services = servicesTextarea.value;
+                });
+                servicesCell.appendChild(servicesTextarea);
+                
+                row.appendChild(equipCell);
+                row.appendChild(problemsCell);
+                row.appendChild(requestsCell);
+                row.appendChild(servicesCell);
+                
+                maintenanceBody.appendChild(row);
+            });
+            
+            // Inicializar tabela de retirada de peças (vazia inicialmente)
+            renderEquipmentTable();
+            
+            // Inicializar tabela de proposta de venda
+            initializeSPTable();
+        }
+        
+        // Atualizar dados do inventário
+        function updateInventoryData(index, field) {
+            const value = document.getElementById(`${field}-${index}`).value;
+            inventoryData[index][field] = value;
+        }
+        
+        // Atualizar dados de produtos
+        function updateProductData(index, field) {
+            const value = document.getElementById(`${field === 'name' ? 'product' : field === 'image' ? 'product-image' : field}-${index}`).value;
+            productsData[index][field] = value;
+        }
+        
+        // Adicionar equipamento à tabela (módulo de retirada)
+        function addEquipment() {
+            equipmentCount++;
+            const equipment = {
+                id: equipmentCount,
+                name: '',
+                brand: '',
+                serial: '',
+                problem: '',
+                accessories: ''
+            };
+            
+            withdrawalData.equipment.push(equipment);
+            renderEquipmentTable();
+        }
+        
+        // Remover equipamento da tabela (módulo de retirada)
+        function removeEquipment(id) {
+            withdrawalData.equipment = withdrawalData.equipment.filter(item => item.id !== id);
+            renderEquipmentTable();
+        }
+        
+        // Renderizar tabela de equipamentos (módulo de retirada)
+        function renderEquipmentTable() {
+            const tableBody = document.getElementById('equipment-body');
+            tableBody.innerHTML = '';
+            
+            if (withdrawalData.equipment.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td colspan="6" style="text-align: center; padding: 20px; color: #666;">
+                    <i class="fas fa-info-circle"></i> Nenhum equipamento/peça adicionado. Clique no botão acima para adicionar.
+                </td>`;
+                tableBody.appendChild(row);
+                return;
+            }
+            
+            withdrawalData.equipment.forEach((item, index) => {
+                const row = document.createElement('tr');
+                
+                // Coluna do equipamento
+                const nameCell = document.createElement('td');
+                const nameInput = document.createElement('input');
+                nameInput.type = 'text';
+                nameInput.value = item.name;
+                nameInput.placeholder = 'Nome do equipamento/peça';
+                nameInput.addEventListener('input', () => {
+                    withdrawalData.equipment[index].name = nameInput.value;
+                });
+                nameCell.appendChild(nameInput);
+                
+                // Coluna da marca
+                const brandCell = document.createElement('td');
+                const brandInput = document.createElement('input');
+                brandInput.type = 'text';
+                brandInput.value = item.brand;
+                brandInput.placeholder = 'Marca/fabricante';
+                brandInput.addEventListener('input', () => {
+                    withdrawalData.equipment[index].brand = brandInput.value;
+                });
+                brandCell.appendChild(brandInput);
+                
+                // Coluna do número de série
+                const serialCell = document.createElement('td');
+                const serialInput = document.createElement('input');
+                serialInput.type = 'text';
+                serialInput.value = item.serial;
+                serialInput.placeholder = 'Nº de série/patrimônio';
+                serialInput.addEventListener('input', () => {
+                    withdrawalData.equipment[index].serial = serialInput.value;
+                });
+                serialCell.appendChild(serialInput);
+                
+                // Coluna do problema
+                const problemCell = document.createElement('td');
+                const problemTextarea = document.createElement('textarea');
+                problemTextarea.value = item.problem;
+                problemTextarea.placeholder = 'Problema relatado pelo cliente';
+                problemTextarea.addEventListener('input', () => {
+                    withdrawalData.equipment[index].problem = problemTextarea.value;
+                });
+                problemCell.appendChild(problemTextarea);
+                
+                // Coluna dos acessórios
+                const accessoriesCell = document.createElement('td');
+                const accessoriesTextarea = document.createElement('textarea');
+                accessoriesTextarea.value = item.accessories;
+                accessoriesTextarea.placeholder = 'Acessórios retirados junto';
+                accessoriesTextarea.addEventListener('input', () => {
+                    withdrawalData.equipment[index].accessories = accessoriesTextarea.value;
+                });
+                accessoriesCell.appendChild(accessoriesTextarea);
+                
+                // Coluna de ações
+                const actionsCell = document.createElement('td');
+                const removeButton = document.createElement('button');
+                removeButton.innerHTML = '<i class="fas fa-trash"></i>';
+                removeButton.style.background = '#e63946';
+                removeButton.style.padding = '8px';
+                removeButton.style.fontSize = '12px';
+                removeButton.onclick = () => removeEquipment(item.id);
+                actionsCell.appendChild(removeButton);
+                
+                row.appendChild(nameCell);
+                row.appendChild(brandCell);
+                row.appendChild(serialCell);
+                row.appendChild(problemCell);
+                row.appendChild(accessoriesCell);
+                row.appendChild(actionsCell);
+                
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // Inicializar tabela de proposta de venda
+        function initializeSPTable() {
+            const tableBody = document.getElementById('sp-equipment-body');
+            tableBody.innerHTML = '';
+            
+            for (let i = 0; i < spEquipmentData.length; i++) {
+                const row = document.createElement('tr');
+                
+                // Coluna de número
+                const numCell = document.createElement('td');
+                numCell.textContent = i + 1;
+                numCell.style.textAlign = 'center';
+                numCell.style.fontWeight = 'bold';
+                
+                // Coluna da foto
+                const photoCell = document.createElement('td');
+                photoCell.className = 'equipment-photo';
+                
+                const photoPlaceholder = document.createElement('div');
+                photoPlaceholder.className = 'equipment-photo-placeholder';
+                photoPlaceholder.id = `sp-photo-placeholder-${i}`;
+                
+                if (spEquipmentData[i].imageData) {
+                    const img = document.createElement('img');
+                    img.src = spEquipmentData[i].imageData;
+                    img.className = 'equipment-photo-img';
+                    img.alt = 'Foto do equipamento';
+                    photoPlaceholder.appendChild(img);
+                } else {
+                    photoPlaceholder.innerHTML = '<i class="fas fa-camera" style="font-size: 16px; margin-bottom: 5px;"></i> Clique para adicionar foto';
+                }
+                
+                photoPlaceholder.onclick = () => {
+                    // Criar opções para adicionar foto
+                    const optionsDiv = document.createElement('div');
+                    optionsDiv.className = 'photo-options';
+                    
+                    // Opção de URL
+                    const urlOption = document.createElement('div');
+                    urlOption.className = 'photo-option-btn';
+                    urlOption.textContent = 'Usar URL';
+                    urlOption.onclick = (e) => {
+                        e.stopPropagation();
+                        const input = document.createElement('input');
+                        input.type = 'text';
+                        input.className = 'photo-url-input';
+                        input.placeholder = 'Cole a URL da imagem aqui';
+                        input.value = spEquipmentData[i].imageData || '';
+                        
+                        optionsDiv.innerHTML = '';
+                        optionsDiv.appendChild(input);
+                        input.focus();
+                        
+                        input.onblur = () => {
+                            updateSPEquipmentPhotoFromUrl(input.value, i);
+                        };
+                        
+                        input.onkeypress = (e) => {
+                            if (e.key === 'Enter') {
+                                updateSPEquipmentPhotoFromUrl(input.value, i);
+                            }
+                        };
+                    };
+                    
+                    // Opção de upload local
+                    const uploadOption = document.createElement('div');
+                    uploadOption.className = 'photo-option-btn';
+                    uploadOption.textContent = 'Upload Local';
+                    uploadOption.onclick = (e) => {
+                        e.stopPropagation();
+                        const fileInput = document.createElement('input');
+                        fileInput.type = 'file';
+                        fileInput.accept = 'image/*';
+                        fileInput.className = 'photo-file-input';
+                        
+                        fileInput.onchange = (e) => {
+                            const file = e.target.files[0];
+                            if (file) {
+                                updateSPEquipmentPhotoFromFile(file, i);
+                            }
+                        };
+                        
+                        fileInput.click();
+                    };
+                    
+                    optionsDiv.appendChild(urlOption);
+                    optionsDiv.appendChild(uploadOption);
+                    
+                    photoPlaceholder.innerHTML = '';
+                    photoPlaceholder.appendChild(optionsDiv);
+                };
+                
+                photoCell.appendChild(photoPlaceholder);
+                
+                // Coluna do equipamento
+                const equipCell = document.createElement('td');
+                const equipInput = document.createElement('input');
+                equipInput.type = 'text';
+                equipInput.value = spEquipmentData[i].equipment;
+                equipInput.dataset.index = i;
+                equipInput.dataset.field = 'equipment';
+                equipInput.placeholder = "Nome do equipamento";
+                equipInput.addEventListener('input', () => {
+                    spEquipmentData[i].equipment = equipInput.value;
+                });
+                equipCell.appendChild(equipInput);
+                
+                // Coluna da marca/modelo
+                const brandCell = document.createElement('td');
+                const brandInput = document.createElement('input');
+                brandInput.type = 'text';
+                brandInput.value = spEquipmentData[i].brand;
+                brandInput.dataset.index = i;
+                brandInput.dataset.field = 'brand';
+                brandInput.placeholder = "Marca/Modelo";
+                brandInput.addEventListener('input', () => {
+                    spEquipmentData[i].brand = brandInput.value;
+                });
+                brandCell.appendChild(brandInput);
+                
+                // Coluna de observações
+                const notesCell = document.createElement('td');
+                const notesInput = document.createElement('textarea');
+                notesInput.value = spEquipmentData[i].notes || '';
+                notesInput.dataset.index = i;
+                notesInput.dataset.field = 'notes';
+                notesInput.placeholder = "Informações adicionais sobre o equipamento";
+                notesInput.addEventListener('input', () => {
+                    spEquipmentData[i].notes = notesInput.value;
+                });
+                notesCell.appendChild(notesInput);
+                
+                // Coluna da quantidade
+                const qtyCell = document.createElement('td');
+                const qtyInput = document.createElement('input');
+                qtyInput.type = 'number';
+                qtyInput.min = '1';
+                qtyInput.value = spEquipmentData[i].quantity;
+                qtyInput.dataset.index = i;
+                qtyInput.dataset.field = 'quantity';
+                qtyInput.addEventListener('input', () => {
+                    spEquipmentData[i].quantity = qtyInput.value;
+                    calculateSPTotals();
+                });
+                qtyCell.appendChild(qtyInput);
+                
+                // Coluna do preço unitário
+                const priceCell = document.createElement('td');
+                const priceInput = document.createElement('input');
+                priceInput.type = 'number';
+                priceInput.step = '0.01';
+                priceInput.min = '0';
+                priceInput.value = spEquipmentData[i].price;
+                priceInput.dataset.index = i;
+                priceInput.dataset.field = 'price';
+                priceInput.placeholder = "0,00";
+                priceInput.addEventListener('input', () => {
+                    spEquipmentData[i].price = priceInput.value;
+                    calculateSPTotals();
+                });
+                priceCell.appendChild(priceInput);
+                
+                // Coluna do total
+                const totalCell = document.createElement('td');
+                totalCell.className = 'sp-total-cell';
+                totalCell.dataset.index = i;
+                totalCell.textContent = `R$ ${spEquipmentData[i].total}`;
+                totalCell.style.fontWeight = 'bold';
+                
+                // Coluna de ações (botão para remover linha)
+                const actionsCell = document.createElement('td');
+                actionsCell.style.textAlign = 'center';
+                
+                if (spEquipmentData.length > 1) {
+                    const removeBtn = document.createElement('button');
+                    removeBtn.type = 'button';
+                    removeBtn.className = 'remove-row-btn';
+                    removeBtn.innerHTML = '<i class="fas fa-times"></i>';
+                    removeBtn.title = 'Remover equipamento';
+                    removeBtn.onclick = () => removeSPRow(i);
+                    actionsCell.appendChild(removeBtn);
+                }
+                
+                row.appendChild(numCell);
+                row.appendChild(photoCell);
+                row.appendChild(equipCell);
+                row.appendChild(brandCell);
+                row.appendChild(notesCell);
+                row.appendChild(qtyCell);
+                row.appendChild(priceCell);
+                row.appendChild(totalCell);
+                row.appendChild(actionsCell);
+                tableBody.appendChild(row);
+            }
+            
+            // Configurar eventos para desconto e frete
+            document.getElementById('discount-input').addEventListener('input', calculateSPTotals);
+            document.getElementById('shipping').addEventListener('DOMSubtreeModified', calculateSPTotals);
+        }
+        
+        // Atualizar a foto do equipamento a partir de uma URL (proposta de venda)
+        function updateSPEquipmentPhotoFromUrl(url, index) {
+            if (url) {
+                const photoPlaceholder = document.getElementById(`sp-photo-placeholder-${index}`);
+                if (photoPlaceholder) {
+                    // Criar uma imagem para testar a URL
+                    const testImage = new Image();
+                    testImage.onload = function() {
+                        photoPlaceholder.innerHTML = '';
+                        
+                        const img = document.createElement('img');
+                        img.src = url;
+                        img.className = 'equipment-photo-img';
+                        img.alt = 'Foto do equipamento';
+                        
+                        photoPlaceholder.appendChild(img);
+                        spEquipmentData[index].imageData = url;
+                    };
+                    testImage.onerror = function() {
+                        photoPlaceholder.innerHTML = '<i class="fas fa-exclamation-triangle" style="font-size: 16px; margin-bottom: 5px;"></i> URL inválida';
+                        spEquipmentData[index].imageData = '';
+                    };
+                    testImage.src = url;
+                }
+            }
+        }
+        
+        // Atualizar a foto do equipamento a partir de um arquivo local (proposta de venda)
+        function updateSPEquipmentPhotoFromFile(file, index) {
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const photoPlaceholder = document.getElementById(`sp-photo-placeholder-${index}`);
+                    if (photoPlaceholder) {
+                        photoPlaceholder.innerHTML = '';
+                        
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.className = 'equipment-photo-img';
+                        img.alt = 'Foto do equipamento';
+                        
+                        photoPlaceholder.appendChild(img);
+                        spEquipmentData[index].imageData = e.target.result; // Salva como Data URL
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        // Calcular totais (proposta de venda)
+        function calculateSPTotals() {
+            let subtotal = 0;
+            
+            for (let i = 0; i < spEquipmentData.length; i++) {
+                const quantity = parseFloat(spEquipmentData[i].quantity) || 0;
+                const price = parseFloat(spEquipmentData[i].price) || 0;
+                const rowTotal = quantity * price;
+                
+                spEquipmentData[i].total = rowTotal.toFixed(2);
+                subtotal += rowTotal;
+                
+                // Atualizar o valor na tabela
+                const totalCell = document.querySelector(`.sp-total-cell[data-index="${i}"]`);
+                if (totalCell) {
+                    totalCell.textContent = `R$ ${spEquipmentData[i].total}`;
+                }
+            }
+            
+            const discount = parseFloat(document.getElementById('discount-input').value) || 0;
+            const shipping = parseFloat(document.getElementById('shipping').textContent.replace('R$ ', '').replace(',', '.')) || 0;
+            
+            document.getElementById('subtotal').textContent = `R$ ${subtotal.toFixed(2)}`;
+            
+            const total = subtotal - discount + shipping;
+            document.getElementById('total').textContent = `R$ ${total.toFixed(2)}`;
+        }
+        
+        // Adicionar nova linha de equipamento (proposta de venda)
+        function addNewSPRow() {
+            spEquipmentData.push({
+                equipment: '', 
+                brand: '', 
+                quantity: '', 
+                price: '', 
+                total: '0.00',
+                notes: '',
+                imageData: ''
+            });
+            initializeSPTable();
+            calculateSPTotals();
+        }
+        
+        // Remover linha de equipamento (proposta de venda)
+        function removeSPRow(index) {
+            if (spEquipmentData.length > 1) {
+                spEquipmentData.splice(index, 1);
+                initializeSPTable();
+                calculateSPTotals();
+            } else {
+                alert("É necessário ter pelo menos um equipamento na proposta.");
+            }
+        }
+        
+        // Salvar dados do inventário
+        function saveInventoryData() {
+            const clinicName = document.getElementById('clinic-name').value;
+            const inventoryDate = document.getElementById('inventory-date').value;
+            const responsible = document.getElementById('responsible').value;
+            const location = document.getElementById('location').value;
+            
+            const data = {
+                clinicName,
+                inventoryDate,
+                responsible,
+                location,
+                items: inventoryData
+            };
+            
+            localStorage.setItem('inventoryData', JSON.stringify(data));
+            
+            const saveStatus = document.getElementById('inventory-save-status');
+            saveStatus.textContent = 'Dados salvos com sucesso!';
+            
+            setTimeout(() => {
+                saveStatus.textContent = '';
+            }, 3000);
+        }
+        
+        // Salvar dados da ordem de serviço
+        function saveOSData() {
+            const osNumber = document.getElementById('os-number').value;
+            const osDate = document.getElementById('os-date').value;
+            const client = document.getElementById('client').value;
+            const equipment = document.getElementById('equipment').value;
+            const serial = document.getElementById('serial').value;
+            const technician = document.getElementById('technician').value;
+            const reportedIssue = document.getElementById('reported-issue').value;
+            const condition = document.getElementById('condition').value;
+            const services = document.getElementById('services').value;
+            const observations = document.getElementById('observations').value;
+            
+            const data = {
+                osNumber,
+                osDate,
+                client,
+                equipment,
+                serial,
+                technician,
+                reportedIssue,
+                condition,
+                services,
+                observations
+            };
+            
+            localStorage.setItem('osData', JSON.stringify(data));
+            
+            const saveStatus = document.getElementById('os-save-status');
+            saveStatus.textContent = 'Dados salvos com sucesso!';
+            
+            setTimeout(() => {
+                saveStatus.textContent = '';
+            }, 3000);
+        }
+        
+        // Salvar dados do pedido de compras
+        function savePOData() {
+            const chain = document.getElementById('chain').value;
+            const clinic = document.getElementById('clinic').value;
+            
+            const data = {
+                chain,
+                clinic,
+                products: productsData
+            };
+            
+            localStorage.setItem('poData', JSON.stringify(data));
+            
+            const saveStatus = document.getElementById('po-save-status');
+            saveStatus.textContent = 'Dados salvos com sucesso!';
+            
+            setTimeout(() => {
+                saveStatus.textContent = '';
+            }, 3000);
+        }
+        
+        // Salvar dados da manutenção preventiva
+        function savePMData() {
+            const clinicNumber = document.getElementById('clinic-number').value;
+            const maintenanceDate = document.getElementById('maintenance-date').value;
+            const technician = document.getElementById('pm-technician').value;
+            const weekDay = document.getElementById('week-day').value;
+            
+            const data = {
+                clinicNumber,
+                maintenanceDate,
+                technician,
+                weekDay,
+                maintenance: maintenanceData,
+                timestamp: new Date().toISOString()
+            };
+            
+            localStorage.setItem('pmData', JSON.stringify(data));
+            
+            const saveStatus = document.getElementById('pm-save-status');
+            saveStatus.textContent = 'Dados salvos com sucesso!';
+            
+            setTimeout(() => {
+                saveStatus.textContent = '';
+            }, 3000);
+        }
+        
+        // Salvar dados da retirada de peças
+        function saveWOData() {
+            // Atualizar dados do formulário
+            withdrawalData.technician = document.getElementById('wo-technician').value;
+            withdrawalData.clinicLocation = document.getElementById('clinic-location').value;
+            withdrawalData.estimatedReturn = document.getElementById('estimated-return').value;
+            withdrawalData.urgency = document.getElementById('urgency').value;
+            withdrawalData.observations = document.getElementById('observations').value;
+            
+            localStorage.setItem('woData', JSON.stringify(withdrawalData));
+            
+            const saveStatus = document.getElementById('wo-save-status');
+            saveStatus.textContent = 'Dados salvos com sucesso!';
+            
+            setTimeout(() => {
+                saveStatus.textContent = '';
+            }, 3000);
+        }
+        
+        // Salvar dados da proposta de venda
+        function saveSPData() {
+            const formData = {
+                saleNumber: document.getElementById('sale-number').value,
+                saleDate: document.getElementById('sale-date').value,
+                validDate: document.getElementById('valid-date').value,
+                clientName: document.getElementById('client-name').value,
+                clientDocument: document.getElementById('client-document').value,
+                clientEmail: document.getElementById('client-email').value,
+                clientPhone: document.getElementById('client-phone').value,
+                clientAddress: document.getElementById('client-full-address').value,
+                salesperson: document.getElementById('salesperson').value,
+                paymentMethod: document.getElementById('payment-method').value,
+                paymentTerms: document.getElementById('payment-terms').value,
+                equipment: spEquipmentData,
+                discount: document.getElementById('discount-input').value,
+                shipping: document.getElementById('shipping').textContent,
+                timestamp: new Date().toISOString()
+            };
+            
+            localStorage.setItem('spData', JSON.stringify(formData));
+            
+            const saveStatus = document.getElementById('sp-save-status');
+            saveStatus.textContent = 'Dados salvos com sucesso!';
+            
+            setTimeout(() => {
+                saveStatus.textContent = '';
+            }, 3000);
+        }
+        
+        // Carregar dados salvos
+        function loadSavedData() {
+            // Carregar inventário
+            const inventoryDataStr = localStorage.getItem('inventoryData');
+            if (inventoryDataStr) {
+                const data = JSON.parse(inventoryDataStr);
+                document.getElementById('clinic-name').value = data.clinicName || '';
+                document.getElementById('inventory-date').value = data.inventoryDate || '';
+                document.getElementById('responsible').value = data.responsible || '';
+                document.getElementById('location').value = data.location || '';
+                
+                if (data.items) {
+                    inventoryData = data.items;
+                    for (let i = 0; i < INVENTORY_ROWS; i++) {
+                        if (data.items[i]) {
+                            document.getElementById(`equipment-${i}`).value = data.items[i].equipment || '';
+                            document.getElementById(`brand-${i}`).value = data.items[i].brand || '';
+                            document.getElementById(`serial-${i}`).value = data.items[i].serial || '';
+                        }
+                    }
+                }
+            }
+            
+            // Carregar ordem de serviço
+            const osDataStr = localStorage.getItem('osData');
+            if (osDataStr) {
+                const data = JSON.parse(osDataStr);
+                document.getElementById('os-number').value = data.osNumber || '';
+                document.getElementById('os-date').value = data.osDate || '';
+                document.getElementById('client').value = data.client || '';
+                document.getElementById('equipment').value = data.equipment || '';
+                document.getElementById('serial').value = data.serial || '';
+                document.getElementById('technician').value = data.technician || '';
+                document.getElementById('reported-issue').value = data.reportedIssue || '';
+                document.getElementById('condition').value = data.condition || '';
+                document.getElementById('services').value = data.services || '';
+                document.getElementById('observations').value = data.observations || '';
+            }
+            
+            // Carregar pedido de compras
+            const poDataStr = localStorage.getItem('poData');
+            if (poDataStr) {
+                const data = JSON.parse(poDataStr);
+                document.getElementById('chain').value = data.chain || '';
+                document.getElementById('clinic').value = data.clinic || '';
+                
+                if (data.products) {
+                    productsData = data.products;
+                    for (let i = 0; i < PRODUCT_ROWS; i++) {
+                        if (data.products[i]) {
+                            document.getElementById(`product-${i}`).value = data.products[i].name || '';
+                            document.getElementById(`quantity-${i}`).value = data.products[i].quantity || '';
+                            document.getElementById(`product-image-${i}`).value = data.products[i].image || '';
+                        }
+                    }
+                }
+            }
+            
+            // Carregar manutenção preventiva
+            const pmDataStr = localStorage.getItem('pmData');
+            if (pmDataStr) {
+                const data = JSON.parse(pmDataStr);
+                document.getElementById('clinic-number').value = data.clinicNumber || '';
+                document.getElementById('maintenance-date').value = data.maintenanceDate || '';
+                document.getElementById('pm-technician').value = data.technician || '';
+                document.getElementById('week-day').value = data.weekDay || '';
+                
+                if (data.maintenance) {
+                    maintenanceData = data.maintenance;
+                    // Atualizar os campos na tabela
+                    maintenanceData.forEach((item, index) => {
+                        const textareas = document.querySelectorAll(`textarea[data-index="${index}"]`);
+                        textareas.forEach(textarea => {
+                            const field = textarea.dataset.field;
+                            textarea.value = item[field] || '';
+                        });
+                        
+                        const inputs = document.querySelectorAll(`input[data-index="${index}"]`);
+                        inputs.forEach(input => {
+                            if (input.className === 'equipment-input') {
+                                input.value = item.equipmentDetails || '';
+                            }
+                        });
+                    });
+                }
+            }
+            
+            // Carregar retirada de peças
+            const woDataStr = localStorage.getItem('woData');
+            if (woDataStr) {
+                const data = JSON.parse(woDataStr);
+                
+                withdrawalData = data;
+                document.getElementById('withdrawal-number').value = withdrawalData.withdrawalNumber;
+                document.getElementById('withdrawal-date').value = withdrawalData.withdrawalDate;
+                document.getElementById('wo-technician').value = withdrawalData.technician;
+                document.getElementById('clinic-location').value = withdrawalData.clinicLocation;
+                document.getElementById('estimated-return').value = withdrawalData.estimatedReturn;
+                document.getElementById('urgency').value = withdrawalData.urgency;
+                document.getElementById('observations').value = withdrawalData.observations;
+                
+                // Encontrar o maior ID para continuar a contagem
+                if (withdrawalData.equipment.length > 0) {
+                    equipmentCount = Math.max(...withdrawalData.equipment.map(item => item.id));
+                }
+                
+                renderEquipmentTable();
+            }
+            
+            // Carregar proposta de venda
+            const spDataStr = localStorage.getItem('spData');
+            if (spDataStr) {
+                const formData = JSON.parse(spDataStr);
+                
+                document.getElementById('sale-number').value = formData.saleNumber || '';
+                document.getElementById('sale-date').value = formData.saleDate || '';
+                document.getElementById('valid-date').value = formData.validDate || '';
+                document.getElementById('client-name').value = formData.clientName || '';
+                document.getElementById('client-document').value = formData.clientDocument || '';
+                document.getElementById('client-email').value = formData.clientEmail || '';
+                document.getElementById('client-phone').value = formData.clientPhone || '';
+                document.getElementById('client-full-address').value = formData.clientAddress || '';
+                document.getElementById('salesperson').value = formData.salesperson || '';
+                document.getElementById('payment-method').value = formData.paymentMethod || '';
+                document.getElementById('payment-terms').value = formData.paymentTerms || '';
+                
+                if (formData.equipment) {
+                    spEquipmentData = formData.equipment;
+                }
+                
+                if (formData.discount) {
+                    document.getElementById('discount-input').value = formData.discount;
+                }
+                
+                if (formData.shipping) {
+                    document.getElementById('shipping').textContent = formData.shipping;
+                }
+                
+                initializeSPTable();
+                calculateSPTotals();
+            }
+            
+            // Carregar logos
+            ['inventory', 'os', 'po', 'pm', 'wo', 'sp'].forEach(module => {
+                const logoUrl = localStorage.getItem(`${module}-logo-url`);
+                if (logoUrl) {
+                    const placeholder = document.getElementById(`${module}-logo-placeholder`);
+                    placeholder.innerHTML = `<img src="${logoUrl}" class="logo-img" alt="Logo">`;
+                    placeholder.onclick = null;
+                }
+            });
+        }
+        
+        // Limpar formulários
+        function clearInventoryForm() {
+            if (confirm('Tem certeza que deseja limpar todos os dados do inventário?')) {
+                document.getElementById('clinic-name').value = '';
+                document.getElementById('inventory-date').value = '';
+                document.getElementById('responsible').value = '';
+                document.getElementById('location').value = '';
+                
+                for (let i = 0; i < INVENTORY_ROWS; i++) {
+                    document.getElementById(`equipment-${i}`).value = '';
+                    document.getElementById(`brand-${i}`).value = '';
+                    document.getElementById(`serial-${i}`).value = '';
+                }
+                
+                inventoryData = Array(INVENTORY_ROWS).fill().map(() => ({ equipment: '', brand: '', serial: '' }));
+                localStorage.removeItem('inventoryData');
+                
+                const saveStatus = document.getElementById('inventory-save-status');
+                saveStatus.textContent = 'Formulário limpo com sucesso!';
+                
+                setTimeout(() => {
+                    saveStatus.textContent = '';
+                }, 3000);
+            }
+        }
+        
+        function clearOSForm() {
+            if (confirm('Tem certeza que deseja limpar todos os dados da ordem de serviço?')) {
+                document.getElementById('os-number').value = '';
+                document.getElementById('os-date').value = '';
+                document.getElementById('client').value = '';
+                document.getElementById('equipment').value = '';
+                document.getElementById('serial').value = '';
+                document.getElementById('technician').value = '';
+                document.getElementById('reported-issue').value = '';
+                document.getElementById('condition').value = '';
+                document.getElementById('services').value = '';
+                document.getElementById('observations').value = '';
+                
+                localStorage.removeItem('osData');
+                
+                const saveStatus = document.getElementById('os-save-status');
+                saveStatus.textContent = 'Formulário limpo com sucesso!';
+                
+                setTimeout(() => {
+                    saveStatus.textContent = '';
+                }, 3000);
+            }
+        }
+        
+        function clearPOForm() {
+            if (confirm('Tem certeza que deseja limpar todos os dados do pedido de compras?')) {
+                document.getElementById('chain').value = '';
+                document.getElementById('clinic').value = '';
+                
+                for (let i = 0; i < PRODUCT_ROWS; i++) {
+                    document.getElementById(`product-${i}`).value = '';
+                    document.getElementById(`quantity-${i}`).value = '';
+                    document.getElementById(`product-image-${i}`).value = '';
+                }
+                
+                productsData = Array(PRODUCT_ROWS).fill().map(() => ({ name: '', quantity: '', image: '' }));
+                localStorage.removeItem('poData');
+                
+                const saveStatus = document.getElementById('po-save-status');
+                saveStatus.textContent = 'Formulário limpo com sucesso!';
+                
+                setTimeout(() => {
+                    saveStatus.textContent = '';
+                }, 3000);
+            }
+        }
+        
+        function clearPMForm() {
+            if(confirm('Tem certeza que deseja limpar o formulário de manutenção preventiva? Todos os dados serão perdidos.')) {
+                document.getElementById('clinic-number').value = '';
+                document.getElementById('maintenance-date').value = '';
+                document.getElementById('pm-technician').value = '';
+                document.getElementById('week-day').value = '';
+                
+                maintenanceData = equipmentList.map(equipment => ({
+                    equipment: equipment,
+                    problems: '',
+                    requests: '',
+                    services: ''
+                }));
+                
+                // Atualizar os campos na tabela
+                maintenanceData.forEach((item, index) => {
+                    const textareas = document.querySelectorAll(`textarea[data-index="${index}"]`);
+                    textareas.forEach(textarea => {
+                        textarea.value = '';
+                    });
+                    
+                    const inputs = document.querySelectorAll(`input[data-index="${index}"]`);
+                    inputs.forEach(input => {
+                        if (input.className === 'equipment-input') {
+                            input.value = '';
+                        }
+                    });
+                });
+                
+                localStorage.removeItem('pmData');
+                
+                const saveStatus = document.getElementById('pm-save-status');
+                saveStatus.textContent = 'Formulário limpo!';
+                
+                setTimeout(() => {
+                    saveStatus.textContent = '';
+                }, 3000);
+                
+                // Atualizar data atual
+                const today = new Date().toISOString().substr(0, 10);
+                document.getElementById('maintenance-date').value = today;
+                
+                // Definir dia da semana automaticamente
+                const days = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+                const todayIndex = new Date().getDay();
+                document.getElementById('week-day').value = days[todayIndex];
+            }
+        }
+        
+        function clearWOForm() {
+            if(confirm('Tem certeza que deseja limpar o formulário de retirada de peças? Todos os dados serão perdidos.')) {
+                withdrawalData = {
+                    withdrawalNumber: "RET-" + new Date().getFullYear() + "-001",
+                    withdrawalDate: new Date().toISOString().substr(0, 10),
+                    technician: "",
+                    clinicLocation: "",
+                    estimatedReturn: "",
+                    urgency: "normal",
+                    equipment: [],
+                    observations: ""
+                };
+                
+                equipmentCount = 0;
+                
+                document.getElementById('withdrawal-number').value = withdrawalData.withdrawalNumber;
+                document.getElementById('withdrawal-date').value = withdrawalData.withdrawalDate;
+                document.getElementById('wo-technician').value = '';
+                document.getElementById('clinic-location').value = '';
+                document.getElementById('estimated-return').value = '';
+                document.getElementById('urgency').value = 'normal';
+                document.getElementById('observations').value = '';
+                
+                renderEquipmentTable();
+                
+                localStorage.removeItem('woData');
+                
+                const saveStatus = document.getElementById('wo-save-status');
+                saveStatus.textContent = 'Formulário limpo!';
+                
+                setTimeout(() => {
+                    saveStatus.textContent = '';
+                }, 3000);
+            }
+        }
+        
+        function clearSPForm() {
+            if(confirm('Tem certeza que deseja limpar o formulário de proposta de venda? Todos os dados serão perdidos.')) {
+                document.getElementById('sale-number').value = '';
+                document.getElementById('client-name').value = '';
+                document.getElementById('client-document').value = '';
+                document.getElementById('client-email').value = '';
+                document.getElementById('client-phone').value = '';
+                document.getElementById('client-full-address').value = '';
+                document.getElementById('salesperson').value = '';
+                document.getElementById('payment-method').value = '';
+                document.getElementById('payment-terms').value = '';
+                document.getElementById('discount-input').value = '0.00';
+                
+                spEquipmentData = [{
+                    equipment: '', 
+                    brand: '', 
+                    quantity: '', 
+                    price: '', 
+                    total: '0.00',
+                    notes: '',
+                    imageData: ''
+                }];
+                
+                document.getElementById('shipping').textContent = 'R$ 0,00';
+                
+                initializeSPTable();
+                calculateSPTotals();
+                
+                localStorage.removeItem('spData');
+                
+                const saveStatus = document.getElementById('sp-save-status');
+                saveStatus.textContent = 'Formulário limpo!';
+                
+                setTimeout(() => {
+                    saveStatus.textContent = '';
+                }, 3000);
+                
+                // Atualizar data atual
+                const today = new Date().toISOString().substr(0, 10);
+                document.getElementById('sale-date').value = today;
+                
+                // Definir data de validade (30 dias a partir de hoje)
+                const validDate = new Date();
+                validDate.setDate(validDate.getDate() + 30);
+                document.getElementById('valid-date').value = validDate.toISOString().substr(0, 10);
+                
+                // Gerar novo número de proposta
+                generateSaleNumber();
+            }
+        }
+        
+        // Função para garantir que as imagens sejam carregadas antes da impressão (proposta de venda)
+        function printProposal() {
+            // Primeiro, garantir que todas as imagens estejam carregadas
+            const images = document.querySelectorAll('.equipment-photo-img');
+            let imagesToLoad = images.length;
+            
+            if (imagesToLoad === 0) {
+                window.print();
+                return;
+            }
+            
+            // Mostrar mensagem de carregamento
+            const statusElement = document.getElementById('sp-save-status');
+            statusElement.textContent = 'Preparando para impressão...';
+            
+            // Verificar se cada imagem está carregada
+            images.forEach(img => {
+                if (img.complete) {
+                    imagesToLoad--;
+                } else {
+                    img.onload = function() {
+                        imagesToLoad--;
+                        if (imagesToLoad === 0) {
+                            statusElement.textContent = '';
+                            window.print();
+                        }
+                    };
+                    img.onerror = function() {
+                        imagesToLoad--;
+                        if (imagesToLoad === 0) {
+                            statusElement.textContent = '';
+                            window.print();
+                        }
+                    };
+                }
+            });
+            
+            // Se todas as imagens já estiverem carregadas
+            if (imagesToLoad === 0) {
+                statusElement.textContent = '';
+                window.print();
+            }
+        }
+        
+        // Inicializar a aplicação
+        function initApp() {
+            setupNavigation();
+            initializeTables();
+            loadSavedData();
+            
+            // Atualizar data e hora a cada minuto
+            setInterval(() => {
+                updateDateTime('inventory');
+                updateDateTime('os');
+                updateDateTime('po');
+                updateDateTime('pm');
+                updateDateTime('wo');
+                updateDateTime('sp');
+            }, 60000);
+            
+            // Gerar número de OS se não existir
+            if (!document.getElementById('os-number').value) {
+                generateOSNumber();
+            }
+            
+            // Definir data atual nos campos de data
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('inventory-date').value = today;
+            document.getElementById('os-date').value = today;
+            document.getElementById('maintenance-date').value = today;
+            document.getElementById('withdrawal-date').value = today;
+            document.getElementById('sale-date').value = today;
+            
+            // Definir dia da semana automaticamente (manutenção preventiva)
+            if (!document.getElementById('week-day').value) {
+                const days = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+                const todayIndex = new Date().getDay();
+                document.getElementById('week-day').value = days[todayIndex];
+            }
+            
+            // Definir data de validade (30 dias a partir de hoje) para proposta de venda
+            if (!document.getElementById('valid-date').value) {
+                const validDate = new Date();
+                validDate.setDate(validDate.getDate() + 30);
+                document.getElementById('valid-date').value = validDate.toISOString().substr(0, 10);
+            }
+            
+            // Definir número da ordem automaticamente (retirada de peças)
+            document.getElementById('withdrawal-number').value = withdrawalData.withdrawalNumber;
+            
+            // Gerar número de proposta automático se não existir
+            if (!document.getElementById('sale-number').value) {
+                generateSaleNumber();
+            }
+            
+            // Configurar evento para adicionar equipamento na proposta de venda
+            document.getElementById('add-sp-equipment-btn').addEventListener('click', function() {
+                addNewSPRow();
+            });
+            
+            // Permitir edição do campo de frete na proposta de venda
+            document.getElementById('shipping').contentEditable = true;
+            
+            // Atualizar data e hora inicial
+            updateDateTime('inventory');
+            updateDateTime('os');
+            updateDateTime('po');
+            updateDateTime('pm');
+            updateDateTime('wo');
+            updateDateTime('sp');
+        }
+        
+        // Iniciar quando o documento estiver carregado
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
